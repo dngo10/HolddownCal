@@ -1,4 +1,4 @@
-import {tempDataReceived, GetHttp} from './temData';
+import {GetHttp} from './DataGetter';
 
 export class RequiredItem{
     static holdown;
@@ -50,7 +50,7 @@ export class RequiredItem{
 
 }
 
-class Controller{
+export class Controller{
     static MatchRegex(tempData){
         //console.log(tempData);
         let result = new Map();
@@ -77,12 +77,34 @@ class Controller{
         return result;
     }
 
+    static async GetReceivedReport(resultDict){
+        let jsonObj = await this.GetJsonReport(resultDict);
+        let str = jsonObj["DetailReport"];
+        let strList = str.split("\r\n");
+        return strList;
+    }
+
+    static async GetJsonReport (resultDict){
+        let result = "";
+        for(const [key, value] of Object.entries(resultDict)){
+          result = result + value + " ";
+        }
+        
+        const temp = await fetch("http://localhost:5000/api/values", {
+          method: 'POST',
+          headers:{
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip, deflate, br',
+          },
+          body: '\"' + result + '\"',
+        });  
+        let jsonObj = await temp.json();
+        return jsonObj;
+    }
+
     static RemoveQuote(str){
         let temp = str.substring(1, str.length - 1);
         return temp;
     }
-}
-
-class ExTractReceviedInfo{
-    static obj = JSON.parse(tempDataReceived);
 }

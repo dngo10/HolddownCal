@@ -1,137 +1,123 @@
-    <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.anchorBolt} </span>
-      
-      <div class="dropdown {is_active}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={buttonClick}>
-            <span class="mr-2">Dropdown button</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <p class="dropdown-item is-active hover_item" on:click={chosenItemClick}>
-              Active dropdown item
-            </p>
+<script  context="module">
+  import {RequiredItem} from '$lib/HoldownFinder/holdown';
+  let resItem = new RequiredItem();
+  export async function load({ page, fetch, session, context }){
+    await resItem.initialize(fetch);  
+    return resItem;
+  }
+</script>
+
+
+<script>
+  import {Controller} from '$lib/HoldownFinder/holdown';
+  //let resItem1 = Object.assign({}, resItem);
+  let resItem1 = resItem;
+
+  function buttonClick(item){
+    if(resItem1.activeDict[item] == true){
+      resItem1.activeDict[item] = false;
+    }else{
+      resItem1.activeDict[item] = true;
+    }
+
+    for(const key of Object.keys(resItem1.activeDict)){
+      if(key != item){
+        resItem1.activeDict[key] = false;
+      }
+    }
+  }
+
+  function chosenItemClick(category, item){
+    for(const key of Object.keys(resItem1.activeDict)){
+      resItem1.activeDict[key] = false;
+    }    
+
+    resItem1.resultDict[category] = item;
+  }
+
+  function blurClick(){
+    for(const key of Object.keys(resItem1.activeDict)){
+      resItem1.activeDict[key] = false;
+    } 
+  }
+
+  function clickOutSite(event) {
+    if (!(event.target.classList.contains('button') ||
+          event.target.classList.contains('abc'))
+       ){
+      blurClick();
+    }
+  }
+
+  async function checkClicked(event){
+    let str = await Controller.GetJsonReport(resItem1.activeDict);
+    console.log(str);
+  }
+
+//|preventDefault
+</script>
+
+
+<style>
+
+  .hover_item:hover{
+    background-color: rgb(206, 206, 206);
+  }
+
+  .hasWidth{
+    min-width: 192px;
+  }
+</style>
+
+<div class="section" on:click={clickOutSite}>
+  <div class="container">
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">
+        <div class="tile is-child">
+        {#each Object.keys(resItem1.holdownDict) as category}
+        <div class="columns is-mobile">
+          <div class="column has-text-right is-multiline">
+            <span class="is-size-5 is-size-6-mobile has-text-right">{category}</span>
           </div>
+          <div class="column">
+            <div class="dropdown" class:is-active={resItem1.activeDict[category]}>
+              <div class="dropdown-trigger abc">
+                <button class="button abc" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => buttonClick(category)} >
+                      <span class="mr-2  abc">{resItem1.resultDict[category]}</span>
+                      <span class="icon abc">
+                        <i class="fas fa-angle-down abc"  aria-hidden="true"></i>
+                      </span>
+                </button>
+              </div>
+              <div class="dropdown-menu abc" id="dropdown-menu" role="menu">
+                <div class="dropdown-content abc">
+                  {#each resItem1.holdownDict[category] as item}
+                  <p class="dropdown-item hover_item abc" on:click={() => chosenItemClick(category, item)}>
+                    {item}
+                  </p>
+                  {/each}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/each}
+
+        <div class="field has-text-centered">
+          <button class="button" on:click={() => checkClicked()}>Check</button>
+        </div>
+      </div>
+
+      <div class="tile is-4 is-vertical is-parent">
+        <div class="tile is-child">
+          <p class="title">One</p>
+        </div>
+        <div class="title is-child">
+          <p class="title">Two</p>
+        </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.locationStr} </span>
-      
-      <div class="dropdown {is_active}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={buttonClick}>
-            <span class="mr-2">Dropdown button</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <p class="dropdown-item is-active hover_item" on:click={chosenItemClick}>
-              Active dropdown item
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.concreteFcStr}</span>
-      
-      <div class="dropdown {is_active}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={buttonClick}>
-            <span class="mr-2">Dropdown button</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <p class="dropdown-item is-active hover_item" on:click={chosenItemClick}>
-              Active dropdown item
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.concreteWidthStr} </span>
-      
-      <div class="dropdown {is_active}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={buttonClick}>
-            <span class="mr-2">Dropdown button</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <p class="dropdown-item is-active hover_item" on:click={chosenItemClick}>
-              Active dropdown item
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    ?///////
-
-        <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.postSizestr} </span>
-      
-      <div class="dropdown {resItem.activeDict[RequiredItem.postSizestr]}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click|preventDefault ={() => buttonClick(RequiredItem.postSizestr)}>
-            <span class="mr-2">{resItem.resultDict[RequiredItem.postSizestr]}</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            {#each resItem.holdownDict[RequiredItem.postSizestr] as item}
-            <p class="dropdown-item is-active hover_item" on:click|preventDefault={() => chosenItemClick(RequiredItem.postSizestr, item)}>
-              {item}
-            </p>
-            {/each}
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <div class="columns mt-3">
-      <span class="is-size-5 hasWidth">{RequiredItem.anchorBoltStr} </span>
-      
-      <div class="dropdown {resItem.activeDict[RequiredItem.anchorBoltStr]}">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click|preventDefault ={() => buttonClick(RequiredItem.anchorBoltStr)}>
-            <span class="mr-2">{resItem.resultDict[RequiredItem.anchorBoltStr]}</span>
-            <span class="icon is-small ">
-              <i class="fas fa-angle-down"  aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            {#each resItem.holdownDict[RequiredItem.anchorBoltStr] as item}
-            <p class="dropdown-item is-active hover_item" on:click|preventDefault={() => chosenItemClick(RequiredItem.anchorBoltStr, item)}>
-              {item}
-            </p>
-            {/each}
-          </div>
-        </div>
-      </div>
-    </div>

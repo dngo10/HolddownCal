@@ -1,5 +1,5 @@
 <script  context="module">
-  import {RequiredItem} from '$lib/HoldownFinder/holdown';
+  import {RequiredItem, Controller} from '$lib/HoldownFinder/holdown';
   let resItem = new RequiredItem();
   export async function load({ page, fetch, session, context }){
     await resItem.initialize(fetch);  
@@ -9,10 +9,11 @@
 
 
 <script>
-  //import {RequiredItem} from '$lib/HoldownFinder/holdown';
-
+  //import {Controller} from '$lib/HoldownFinder/holdown';
   //let resItem1 = Object.assign({}, resItem);
   let resItem1 = resItem;
+  let reportList = [];
+  let imageScr = null;
 
   function buttonClick(item){
     if(resItem1.activeDict[item] == true){
@@ -28,12 +29,13 @@
     }
   }
 
-  function chosenItemClick(category, item){
+  async function chosenItemClick(category, item){
     for(const key of Object.keys(resItem1.activeDict)){
       resItem1.activeDict[key] = false;
     }    
 
     resItem1.resultDict[category] = item;
+    await checkClicked(null);
   }
 
   function blurClick(){
@@ -47,8 +49,14 @@
           event.target.classList.contains('abc'))
        ){
       blurClick();
-    }   
-}
+    }
+  }
+
+  async function checkClicked(event){
+    reportList = await Controller.GetReceivedReport(resItem1.resultDict);
+    //base64data = await Controller.GetImage(RequiredItem.holdownstr);
+    imageScr = "http://localhost:5000/api/values/pic/" + resItem1.resultDict[RequiredItem.holdownstr];
+  }
 
 //|preventDefault
 </script>
@@ -66,58 +74,60 @@
 </style>
 
 <div class="section" on:click={clickOutSite}>
-    <div class="container">
-      <div class="tile is-ancestor">
+  <div class="container">
+    <div class="tile is-ancestor">
       <div class="tile is-parent">
         <div class="tile is-child">
-          {#each Object.keys(resItem1.holdownDict) as category}
-          <div class="columns is-mobile">
-            <div class="column has-text-right is-multiline">
-              <span class="is-size-5 is-size-6-mobile has-text-right">{category} </span>
-            </div>
-            
-            <div class="column">
-              <div class="dropdown" class:is-active={resItem1.activeDict[category]}>
-                <div class="dropdown-trigger abc">
-                  <button class="button abc" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => buttonClick(category)} >
-                        <span class="mr-2  abc">{resItem1.resultDict[category]}</span>
-                        <span class="icon abc">
-                          <i class="fas fa-angle-down abc"  aria-hidden="true"></i>
-                        </span>
-                  </button>
-                </div>
-                <div class="dropdown-menu abc" id="dropdown-menu" role="menu">
-                  <div class="dropdown-content abc">
-                    {#each resItem1.holdownDict[category] as item}
-                    <p class="dropdown-item hover_item abc" on:click={() => chosenItemClick(category, item)}>
-                      {item}
-                    </p>
-                    {/each}
-                  </div>
+        {#each Object.keys(resItem1.holdownDict) as category}
+        <div class="columns is-mobile">
+          <div class="column has-text-right is-multiline">
+            <span class="is-size-5 is-size-6-mobile has-text-right">{category}</span>
+          </div>
+          <div class="column">
+            <div class="dropdown" class:is-active={resItem1.activeDict[category]}>
+              <div class="dropdown-trigger abc">
+                <button class="button abc" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => buttonClick(category)} >
+                      <span class="mr-2  abc">{resItem1.resultDict[category]}</span>
+                      <span class="icon abc">
+                        <i class="fas fa-angle-down abc"  aria-hidden="true"></i>
+                      </span>
+                </button>
+              </div>
+              <div class="dropdown-menu abc" id="dropdown-menu" role="menu">
+                <div class="dropdown-content abc">
+                  {#each resItem1.holdownDict[category] as item}
+                  <p class="dropdown-item hover_item abc" on:click={() => chosenItemClick(category, item)}>
+                    {item}
+                  </p>
+                  {/each}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        {/each}
+
+        <div class="field has-text-centered">
+          <button class="button" on:click={() => checkClicked()}>Check</button>
+        </div>
+      </div>
+
+      <div class="tile is-7-desktop is-6-tablet is-vertical is-parent">
+        <div class="tile is-child">
+          {#each reportList as line}
+            <p class="has-text-6 has-text-left">{line}</p>
           {/each}
-
-          <div class="field has-text-centered">
-            <button class="button">Check</button>
-          </div>
+          
         </div>
-
-
+        <div class="title is-child">
+          {#if imageScr}
+            <img src="{imageScr}" alt="No Image"/>
+          {/if}
+          
         </div>
-        <div class="tile is-4 is-vertical is-parent">
-          <div class="tile is-child">
-            <p class="title">One</p>
-          </div>
-          <div class="title is-child">
-            <p class="title">Two</p>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
-<div class="section">
 
-</div>
