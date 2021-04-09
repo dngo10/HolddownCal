@@ -1,7 +1,9 @@
 <script  context="module">
   import {RequiredItem, Controller} from '$lib/HoldownFinder/holdown';
+  
   let resItem = new RequiredItem();
   export async function load({ page, fetch, session, context }){
+    
     await resItem.initialize(fetch);  
     return resItem;
   }
@@ -9,7 +11,7 @@
 
 
 <script>
-  //import {Controller} from '$lib/HoldownFinder/holdown';
+  import {GetHttp} from '$lib/HoldownFinder/DataGetter'
   //let resItem1 = Object.assign({}, resItem);
   let resItem1 = resItem;
   let reportList = [];
@@ -53,9 +55,10 @@
   }
 
   async function checkClicked(event){
+    
     reportList = await Controller.GetReceivedReport(resItem1.resultDict);
-    //base64data = await Controller.GetImage(RequiredItem.holdownstr);
-    imageScr = "http://localhost:5000/api/values/pic/" + resItem1.resultDict[RequiredItem.holdownstr];
+    imageScr = GetHttp.domain +  "/pic/" + resItem1.resultDict[RequiredItem.holdownstr];
+    console.log(GetHttp.domain);
   }
 
 //|preventDefault
@@ -120,9 +123,9 @@
           
         </div>
         <div class="title is-child">
-          {#if imageScr}
-            <img src="{imageScr}" alt="No Image"/>
-          {/if}
+
+            <img src="{Controller.ImgMap[resItem1.resultDict[RequiredItem.holdownstr]]}" alt="nice" />
+
           
         </div>
         </div>
