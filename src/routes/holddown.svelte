@@ -66,13 +66,8 @@
 
 
 <style>
-
   .hover_item:hover{
     background-color: rgb(206, 206, 206);
-  }
-
-  .hasWidth{
-    min-width: 192px;
   }
 </style>
 
@@ -89,7 +84,7 @@
           <div class="column">
             <div class="dropdown" class:is-active={resItem1.activeDict[category]}>
               <div class="dropdown-trigger abc">
-                <button class="button abc" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => buttonClick(category)} >
+                <button class="button abc" aria-haspopup="true" aria-controls="dropdown-menu" on:click|preventDefault={() => buttonClick(category)} >
                       <span class="mr-2  abc">{resItem1.resultDict[category]}</span>
                       <span class="icon abc">
                         <i class="fas fa-angle-down abc"  aria-hidden="true"></i>
@@ -99,7 +94,7 @@
               <div class="dropdown-menu abc" id="dropdown-menu" role="menu">
                 <div class="dropdown-content abc">
                   {#each resItem1.holdownDict[category] as item}
-                  <p class="dropdown-item hover_item abc" on:click={() => chosenItemClick(category, item)}>
+                  <p class="dropdown-item hover_item abc" on:click|preventDefault={() => chosenItemClick(category, item)}>
                     {item}
                   </p>
                   {/each}
@@ -111,22 +106,18 @@
         {/each}
 
         <div class="field has-text-centered">
-          <button class="button" on:click={() => checkClicked()}>Check</button>
+          <button class="button" on:click|preventDefault={() => checkClicked()}>Check</button>
         </div>
       </div>
 
       <div class="tile is-7-desktop is-6-tablet is-vertical is-parent">
         <div class="tile is-child">
           {#each reportList as line}
-            <p class="has-text-6 has-text-left">{line}</p>
+            <p class="has-text-6 has-text-left">{@html line}</p>
           {/each}
-          
         </div>
         <div class="title is-child">
-
-            <img src="{Controller.ImgMap[resItem1.resultDict[RequiredItem.holdownstr]]}" alt="nice" />
-
-          
+            <img src="{Controller.ImgMap[resItem1.resultDict[RequiredItem.holdownstr]]}" alt="nice" /> 
         </div>
         </div>
       </div>

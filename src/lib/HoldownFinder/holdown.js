@@ -37,7 +37,7 @@ export class RequiredItem{
     async initialize(fetch){
         let item = await this.httpGet.GetValue(fetch);
         this.holdownDict = Controller.MatchRegex(item);
-        this.holdownDict[RequiredItem.itemLabels[4]] = [2500, 300];
+        this.holdownDict[RequiredItem.itemLabels[4]] = [2500, 3000];
         this.holdownDict[RequiredItem.itemLabels[5]] = [6, 8, 12];
 
         for(const [key, value] of Object.entries(this.holdownDict)){
@@ -80,7 +80,23 @@ export class Controller{
     static async GetReceivedReport(resultDict){
         let jsonObj = await this.GetJsonReport(resultDict);
         let str = jsonObj["DetailReport"];
-        let strList = str.split("\r\n");
+        let strList = str.split('\n');
+        console.log(strList);
+        return strList = Controller.#FormatText(strList);
+    }
+
+    static #FormatText(strList){
+        for(let i = 0; i < strList.length; i++){
+            if(strList[i].includes('\\!')){
+                strList[i] = strList[i].replace('\\!', "<span class=\"has-text-danger is-italic\">");
+                strList[i] = strList[i] + "</span>";
+            }
+
+            if(strList[i].includes('\\B')){
+                strList[i] = strList[i].replace('\\B', "<span class=\"has-text-danger has-text-weight-bold\">");
+                strList[i] = strList[i] + "</span>";
+            }
+        }
         return strList;
     }
 
