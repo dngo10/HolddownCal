@@ -45,9 +45,6 @@ export class RequiredItem{
            this.resultDict[key] = this.holdownDict[key][0];
         }
     }
-
-
-
 }
 
 export class Controller{
