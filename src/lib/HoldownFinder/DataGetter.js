@@ -8,6 +8,7 @@ export class GetHttp{
     //static domain = "https://localhost:44319/api/values";
     static root = "https://holdowncheckserver20210409103617.azurewebsites.net/";
     static picDomain = GetHttp.root + "pics/";
+    static picDomainInfo = GetHttp.root + "pics/info/";
     static domain = GetHttp.root + "/api/values";
 
     constructor(){

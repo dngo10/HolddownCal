@@ -16,6 +16,7 @@
   let resItem1 = resItem;
   let reportList = [];
   let imageScr = "";
+  let imageInfoSrc = "";
 
   function buttonClick(item){
     if(resItem1.activeDict[item] == true){
@@ -58,6 +59,7 @@
     
     reportList = await Controller.GetReceivedReport(resItem1.resultDict);
     imageScr = GetHttp.picDomain + resItem1.resultDict[RequiredItem.holdownstr] + ".png";
+    imageInfoSrc = GetHttp.picDomainInfo + resItem1.resultDict[RequiredItem.holdownstr] + "_info.png";
   }
 
 //|preventDefault
@@ -121,6 +123,9 @@
         </div>
         </div>
       </div>
+    </div>
+    <div class="has-text-centered">
+      <img src="{imageInfoSrc}" alt="___"/>
     </div>
   </div>
 </div>
