@@ -81,11 +81,10 @@ export class Controller{
         let jsonObj = await this.GetJsonReport(resultDict);
         let str = jsonObj["DetailReport"];
         let strList = str.split('\n');
-        console.log(strList);
-        return strList = Controller.#FormatText(strList);
+        return strList = Controller.FormatText(strList);
     }
 
-    static #FormatText(strList){
+    static FormatText(strList){
         for(let i = 0; i < strList.length; i++){
             if(strList[i].includes('\\!')){
                 strList[i] = strList[i].replace('\\!', "<span class=\"has-text-danger is-italic\">");
@@ -124,23 +123,23 @@ export class Controller{
         return temp;
     }
 
-    static ImgMap = {
-        'HD5B': 'https://www.dropbox.com/s/ewed3evlt85wcbf/HD5B.png?dl=1',
-        'HD7B': 'https://www.dropbox.com/s/wp09zv0nmkvgcee/HD7B.png?dl=1',
-        'HD9B': 'https://www.dropbox.com/s/10bbos7uba5wdra/HD9B.png?dl=1',
-        'HD12': 'https://www.dropbox.com/s/9uvh7622stwk1ha/HD12.png?dl=1',
-        'HD19': 'https://www.dropbox.com/s/jvrh0wrkuxp09qo/HD19.png?dl=1',
-        'HDQ8': 'https://www.dropbox.com/s/2nzwg8u8uuqg9id/HDQ8.png?dl=1',
-        'HDU2': 'https://www.dropbox.com/s/tp5n2eayy15jmvc/HDU2.png?dl=1',
-        'HDU4': 'https://www.dropbox.com/s/2s7mgw0ipo5xjy3/HDU4.png?dl=1',
-        'HDU5': 'https://www.dropbox.com/s/a03xekurrq332h2/HDU5.png?dl=1',
-        'HDU8': 'https://www.dropbox.com/s/uiabt2yw3cxhwso/HDU8.png?dl=1',
-        'HDU11': 'https://www.dropbox.com/s/j4mjb5sk1pq0j33/HDU11.png?dl=1',
-        'HDU14': 'https://www.dropbox.com/s/wkurvpd68fhy8ea/HDU14.png?dl=1',
-        'HHDQ11': 'https://www.dropbox.com/s/5mfh73pszptl1mp/HHDQ11.png?dl=1',
-        'HHDQ14': 'https://www.dropbox.com/s/g7j6zc0tzipkipc/HHDQ14.png?dl=1',
-        'HTT5': 'https://www.dropbox.com/s/3n8krfvdyfuf4bz/HTT5.png?dl=1',
-        'PAB': 'https://www.dropbox.com/s/7umzs8alkax95eq/PAB.png?dl=1',
-        'SSTB': 'https://www.dropbox.com/s/ijs1x35jzh97l3a/SSTB.png?dl=1'
-    }
+    //static ImgMap = {
+    //    'HD5B': 'https://www.dropbox.com/s/ewed3evlt85wcbf/HD5B.png?dl=1',
+    //    'HD7B': 'https://www.dropbox.com/s/wp09zv0nmkvgcee/HD7B.png?dl=1',
+    //    'HD9B': 'https://www.dropbox.com/s/10bbos7uba5wdra/HD9B.png?dl=1',
+    //    'HD12': 'https://www.dropbox.com/s/9uvh7622stwk1ha/HD12.png?dl=1',
+    //    'HD19': 'https://www.dropbox.com/s/jvrh0wrkuxp09qo/HD19.png?dl=1',
+    //    'HDQ8': 'https://www.dropbox.com/s/2nzwg8u8uuqg9id/HDQ8.png?dl=1',
+    //    'HDU2': 'https://www.dropbox.com/s/tp5n2eayy15jmvc/HDU2.png?dl=1',
+    //    'HDU4': 'https://www.dropbox.com/s/2s7mgw0ipo5xjy3/HDU4.png?dl=1',
+    //    'HDU5': 'https://www.dropbox.com/s/a03xekurrq332h2/HDU5.png?dl=1',
+    //    'HDU8': 'https://www.dropbox.com/s/uiabt2yw3cxhwso/HDU8.png?dl=1',
+    //    'HDU11': 'https://www.dropbox.com/s/j4mjb5sk1pq0j33/HDU11.png?dl=1',
+    //    'HDU14': 'https://www.dropbox.com/s/wkurvpd68fhy8ea/HDU14.png?dl=1',
+    //    'HHDQ11': 'https://www.dropbox.com/s/5mfh73pszptl1mp/HHDQ11.png?dl=1',
+    //    'HHDQ14': 'https://www.dropbox.com/s/g7j6zc0tzipkipc/HHDQ14.png?dl=1',
+    //    'HTT5': 'https://www.dropbox.com/s/3n8krfvdyfuf4bz/HTT5.png?dl=1',
+    //    'PAB': 'https://www.dropbox.com/s/7umzs8alkax95eq/PAB.png?dl=1',
+    //    'SSTB': 'https://www.dropbox.com/s/ijs1x35jzh97l3a/SSTB.png?dl=1'
+    //}
 }

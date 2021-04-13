@@ -15,7 +15,7 @@
   //let resItem1 = Object.assign({}, resItem);
   let resItem1 = resItem;
   let reportList = [];
-  let imageScr = null;
+  let imageScr = "";
 
   function buttonClick(item){
     if(resItem1.activeDict[item] == true){
@@ -57,8 +57,7 @@
   async function checkClicked(event){
     
     reportList = await Controller.GetReceivedReport(resItem1.resultDict);
-    imageScr = GetHttp.domain +  "/pic/" + resItem1.resultDict[RequiredItem.holdownstr];
-    console.log(GetHttp.domain);
+    imageScr = GetHttp.picDomain + resItem1.resultDict[RequiredItem.holdownstr] + ".png";
   }
 
 //|preventDefault
@@ -117,8 +116,8 @@
             <p class="has-text-6 has-text-left">{@html line}</p>
           {/each}
         </div>
-        <div class="title is-child">
-            <img src="{Controller.ImgMap[resItem1.resultDict[RequiredItem.holdownstr]]}" alt="nice" /> 
+        <div class="title is-child has-text-left-desktop has-text-centered-mobile">
+            <img src="{imageScr}" alt="___" /> 
         </div>
         </div>
       </div>
