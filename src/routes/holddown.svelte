@@ -66,6 +66,7 @@
 
 
 <style>
+
   .hover_item:hover{
     background-color: rgb(206, 206, 206);
   }

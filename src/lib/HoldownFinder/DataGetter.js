@@ -6,6 +6,8 @@
 export class GetHttp{
     //static domain = "http://localhost:5000/api/values";
     //static domain = "https://localhost:44319/api/values";
+    static root = "https://holdowncheckserver20210409103617.azurewebsites.net/";
+    static picDomain = root + "pics/";
     static domain = "https://holdowncheckserver20210409103617.azurewebsites.net/api/values";
 
     constructor(){
