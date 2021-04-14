@@ -106,10 +106,11 @@
           </div>
         </div>
         {/each}
-
+        <!--
         <div class="field has-text-centered">
           <button class="button" on:click|preventDefault={() => checkClicked()}>Check</button>
         </div>
+        -->
       </div>
 
       <div class="tile is-7-desktop is-6-tablet is-vertical is-parent">
